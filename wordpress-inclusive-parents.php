@@ -8,7 +8,7 @@ Author URI: https://github.com/tlehtimaki
 License: GNU GPL v2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
-
+namespace WordPressInclusiveParents;
 
 /**
  * Enable private and password-protected pages in page lists and dropdowns
@@ -16,13 +16,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @param array $args
  * @return array $args
  */
-function scl_list_pages_args( $args ) {
+function list_pages_args( $args ) {
 	$args['post_status'] = array( 'publish', 'private', 'password' );
 	return $args;
 }
 
-add_filter( 'wp_page_menu_args', 'scl_list_pages_args' );
-add_filter( 'widget_pages_args', 'scl_list_pages_args' );
+add_filter( 'wp_page_menu_args', __NAMESPACE__ . '\\list_pages_args' );
+add_filter( 'widget_pages_args', __NAMESPACE__ . '\\list_pages_args' );
 
 
 /**
@@ -32,13 +32,13 @@ add_filter( 'widget_pages_args', 'scl_list_pages_args' );
  * @param object $post (Optional)
  * @return array $dropdown_args
  */
-function scl_page_attributes_metabox_add_parents( $dropdown_args, $post = null ) {
+function page_attributes_metabox_add_parents( $dropdown_args, $post = null ) {
 	$dropdown_args['post_status'] = array( 'publish', 'draft', 'pending', 'future', 'private' );
 	return $dropdown_args;
 }
 
-add_filter( 'page_attributes_dropdown_pages_args', 'scl_page_attributes_metabox_add_parents', 10, 2 );
-add_filter( 'quick_edit_dropdown_pages_args', 'scl_page_attributes_metabox_add_parents', 10 );
+add_filter( 'page_attributes_dropdown_pages_args', __NAMESPACE__ . '\\page_attributes_metabox_add_parents', 10, 2 );
+add_filter( 'quick_edit_dropdown_pages_args', __NAMESPACE__ . '\\page_attributes_metabox_add_parents', 10 );
 
 /**
  * Add (Status) to titles in page parent dropdowns
@@ -47,7 +47,7 @@ add_filter( 'quick_edit_dropdown_pages_args', 'scl_page_attributes_metabox_add_p
  * @param object $page
  * @return string $title
  */
-function scl_page_parent_dropdown_status_label( $title, $page ) {
+function page_parent_dropdown_status_label( $title, $page ) {
 	if ( ! is_admin() ) {
 		return $title;
 	}
@@ -60,7 +60,7 @@ function scl_page_parent_dropdown_status_label( $title, $page ) {
 	return $title;
 }
 
-add_filter( 'list_pages', 'scl_page_parent_dropdown_status_label', 10, 2 );
+add_filter( 'list_pages', __NAMESPACE__ . 'page_parent_dropdown_status_label', 10, 2 );
 
 
 /**
@@ -70,7 +70,7 @@ add_filter( 'list_pages', 'scl_page_parent_dropdown_status_label', 10, 2 );
  * @param object $page
  * @return string $title
  */
-function scl_menu_checklist_status_label( $title, $page_id ) {
+function menu_checklist_status_label( $title, $page_id ) {
 	if ( empty( $page_id ) ) {
 		return $title;
 	}
@@ -88,7 +88,7 @@ function scl_menu_checklist_status_label( $title, $page_id ) {
 	return $title;
 }
 
-add_filter( 'the_title', 'scl_menu_checklist_status_label', 10, 2 );
+add_filter( 'the_title', __NAMESPACE__ . 'menu_checklist_status_label', 10, 2 );
 
 /**
  * Filter pages metabox on menu admin screen to include private pages.
@@ -107,4 +107,4 @@ function scl_menu_screen_add_private_pages( $query ) {
 	return $query;
 }
 
-add_filter( 'pre_get_posts', 'scl_menu_screen_add_private_pages' );
+add_filter( 'pre_get_posts', __NAMESPACE__ . 'scl_menu_screen_add_private_pages' );
