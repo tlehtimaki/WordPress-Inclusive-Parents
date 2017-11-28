@@ -60,7 +60,7 @@ function page_parent_dropdown_status_label( $title, $page ) {
 	return $title;
 }
 
-add_filter( 'list_pages', __NAMESPACE__ . 'page_parent_dropdown_status_label', 10, 2 );
+add_filter( 'list_pages', __NAMESPACE__ . '\\page_parent_dropdown_status_label', 10, 2 );
 
 
 /**
@@ -88,7 +88,7 @@ function menu_checklist_status_label( $title, $page_id ) {
 	return $title;
 }
 
-add_filter( 'the_title', __NAMESPACE__ . 'menu_checklist_status_label', 10, 2 );
+add_filter( 'the_title', __NAMESPACE__ . '\\menu_checklist_status_label', 10, 2 );
 
 /**
  * Filter pages metabox on menu admin screen to include private pages.
@@ -96,7 +96,7 @@ add_filter( 'the_title', __NAMESPACE__ . 'menu_checklist_status_label', 10, 2 );
  * @param object $query
  * @return object $query
  */
-function scl_menu_screen_add_private_pages( $query ) {
+function menu_screen_add_private_pages( $query ) {
 
 	// Define current screen
 	$current_screen_ob = function_exists( 'get_current_screen' ) && get_current_screen() !== null ? get_current_screen()->base : null;
@@ -107,4 +107,4 @@ function scl_menu_screen_add_private_pages( $query ) {
 	return $query;
 }
 
-add_filter( 'pre_get_posts', __NAMESPACE__ . 'scl_menu_screen_add_private_pages' );
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\\menu_screen_add_private_pages' );
